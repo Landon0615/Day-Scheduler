@@ -1,94 +1,41 @@
-$( document ).ready(theDay()); {
-    console.log( "ready!" );
-};
-function theDay() {
-    var d = new Date();
-    var weekday = new Array(7);
-    weekday[0] = "Sunday";
-    weekday[1] = "Monday";
-    weekday[2] = "Tuesday";
-    weekday[3] = "Wednesday";
-    weekday[4] = "Thursday";
-    weekday[5] = "Friday";
-    weekday[6] = "Saturday";
-  
-    var n = weekday[d.getDay()];
-    document.getElementById("currentDay").innerHTML = n;
-  }
-// set row color for pas present and future. 
-let row = $('.container');
-var today = new Date();
-var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-console.log(time);
-if (time <= $('#Oclock')){
-    console.log("ok");
-    // row.style.backgroundColor = "red";
-}
 
-for(let i = 9; i < 12; i++){
-    $("#table").append(` 
-        <div id="${i}-Oclock">
-        <div class="container">
-        <div class="row align-items-end">
-         <div class="time">
-${i}AM   
-         </div>
-        <div class="event">
-        <div class="input-group input-group-lg">
-  <span class="input-group-text" id="inputGroup-sizing-lg"></span>
-  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
-</div>
-        </div>
-        <div class="submit">
-        <button type="button" class="btn btn-secondary btn-lg">Add Event</button>
-        </div>
-      </div>
-     </div>
-    `)    
+
+const theDay = (moment().format("dddd, MMMM, Do"));
+$("#currentDay").text(theDay);
+
+ const theHour = ((moment().format("H")))
+ $("#currentDay").text(theDay);
+ 
+let timeTextArray = ["9AM","10AM","11AM","12PM","1PM","2PM","3PM","4PM","5PM"]
+for(let i = 0; i < 9; i++){
+    let stringTop = `
+    <div class="row" id="${i+9}-Oclock">
+        <p class="col-1 time">
+        ${timeTextArray[i]}   
+        </p>
+    `
+    let stringBottom =''
+    if(i+9< theHour){
+        stringBottom = `
+        <textarea class="col-10 past"> </textarea>
+        <button class="col-1 saveBtn"> Save </button>
+    </div>
+        `
+    }else if(i+9 == theHour){
+        stringBottom = `
+        <textarea class="col-10 present"> </textarea>
+        <button class="col-1 saveBtn"> Save </button>
+    </div>
+        `
+    }else {
+        stringBottom = `
+        <textarea class="col-10 future"> </textarea>
+        <button class="col-1 saveBtn"> Save </button>
+    </div>
+        `
+    }
+    $("#table").append(stringTop+stringBottom)    
   }
-  for(let i = 12; i < 13; i++){
-    $("#table").append(` 
-        <div id="${i}-Oclock">
-        <div class="container">
-        <div class="row align-items-end">
-         <div class="time">
-${i}PM 
-         </div>
-        <div class="event">
-        <div class="input-group input-group-lg">
-        <span class="input-group-text" id="inputGroup-sizing-lg"></span>
-        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
-      </div>
-        </div>
-        <div class="submit">
-        <button type="button" class="btn btn-secondary btn-lg">Add Event</button>
-        </div>
-      </div>
-     </div>
-    `)    
-  }
-  // generate 1PM
-  for(let i = 1; i < 6; i++){
-    $("#table").append(`
-        <div id="${i}-Oclock">
-        <div class="container">
-        <div class="row align-items-end">
-         <div class="time">
-${i}PM    
-         </div>
-        <div class="event">
-        <div class="input-group input-group-lg">
-        <span class="input-group-text" id="inputGroup-sizing-lg"></span>
-        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
-      </div>
-        </div>
-        <div class="submit">
-        <button type="button" class="btn btn-secondary btn-lg">Add Event</button>
-                </div>
-      </div>
-     </div>
-    `)   
-  
           
   // save text input to local storage
 
@@ -105,5 +52,5 @@ ${i}PM
       }
 
       button.click(saveToLocalStorage).localStorage
-      //getItem('textinput',text.textContent) // this takes my 2PM to 5PM away
-    }
+      getItem('textinput',text.textContent) // this takes my 2PM to 5PM away
+    console.log(localStorage)
