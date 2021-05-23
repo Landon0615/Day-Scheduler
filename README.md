@@ -8,4 +8,4 @@
 
 
 
-[Plan Your Day]
+[Plan Your Day]https://landon0615.github.io/Day-Scheduler/
